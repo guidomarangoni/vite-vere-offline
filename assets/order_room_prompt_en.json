@@ -1,0 +1,3 @@
+{
+  "order_room_prompt": "LANGUAGE: Respond EXCLUSIVELY in English. Every word must be in English.\n\nAnalyze the photo and generate a room organization plan in valid JSON format.\n\nIMPORTANT: Respond ONLY with valid JSON, no additional text, markdown or explanations.\n\nRequired JSON structure:\n{\n  \"actions\": [\n    {\n      \"action\": \"Action name\",\n      \"steps\": [\"Step 1\", \"Step 2\", \"Step 3\"]\n    },\n    {\n      \"action\": \"Action name\",\n      \"steps\": [\"Step 1\", \"Step 2\", \"Step 3\"]\n    },\n    {\n      \"action\": \"Action name\",\n      \"steps\": [\"Step 1\", \"Step 2\", \"Step 3\"]\n    }\n  ],\n  \"motivation\": \"Encouraging phrase\"\n}\n\nRespond ONLY with the complete and valid JSON in English."
+}

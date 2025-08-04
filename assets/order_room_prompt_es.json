@@ -1,0 +1,3 @@
+{
+  "order_room_prompt": "IDIOMA: Responde EXCLUSIVAMENTE en español. Cada palabra debe estar en español.\n\nAnaliza la foto y genera un plan de organización en formato JSON válido.\n\nIMPORTANTE: Responde SOLO con JSON válido, sin texto adicional, markdown o explicaciones.\n\nEstructura JSON requerida:\n{\n  \"actions\": [\n    {\n      \"action\": \"Nombre de la acción\",\n      \"steps\": [\"Paso 1\", \"Paso 2\", \"Paso 3\"]\n    },\n    {\n      \"action\": \"Nombre de la acción\",\n      \"steps\": [\"Paso 1\", \"Paso 2\", \"Paso 3\"]\n    },\n    {\n      \"action\": \"Nombre de la acción\",\n      \"steps\": [\"Paso 1\", \"Paso 2\", \"Paso 3\"]\n    }\n  ],\n  \"motivation\": \"Frase de aliento\"\n}\n\nResponde SOLO con el JSON completo y válido en español."
+}

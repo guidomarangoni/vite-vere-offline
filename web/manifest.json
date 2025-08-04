@@ -1,11 +1,11 @@
 {
-    "name": "offline_menu_translator",
-    "short_name": "offline_menu_translator",
+    "name": "Vite Vere Offline",
+    "short_name": "Vite Vere",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project to demonstrate the usage of on device AI models.",
+    "background_color": "#ffffff",
+    "theme_color": "#2196F3",
+    "description": "Applicazione AI offline per Vite Vere, sviluppata da Guido Marangoni.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -7,8 +7,11 @@ import 'package:flutter_gemma/core/model.dart';
 import 'package:flutter_gemma/flutter_gemma.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:offline_menu_translator/data/downloader_datasource.dart';
-import 'package:offline_menu_translator/domain/download_model.dart';
+import 'package:provider/provider.dart';
+import 'package:vite_vere_offline/data/downloader_datasource.dart';
+import 'package:vite_vere_offline/domain/download_model.dart';
+import 'package:vite_vere_offline/localization/app_strings.dart';
+import 'package:vite_vere_offline/main.dart';
 
 class TranslatorScreen extends StatefulWidget {
   const TranslatorScreen({super.key});
@@ -39,60 +42,27 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   void initState() {
     super.initState();
-    _downloaderDataSource = GemmaDownloaderDataSource(
-      model: DownloadModel(
-        modelUrl:
-            'https://huggingface.co/google/gemma-3n-E4B-it-litert-preview/resolve/main/gemma-3n-E4B-it-int4.task',
-        modelFilename: 'gemma-3n-E4B-it-int4.task',
-      ),
-    );
     _initializeModel();
   }
 
   Future<void> _initializeModel() async {
+    setState(() {
+      _isModelLoading = true;
+    });
     try {
-      final gemma = FlutterGemmaPlugin.instance;
-      final isModelInstalled = await _downloaderDataSource
-          .checkModelExistence();
-
-      if (!isModelInstalled) {
-        setState(() {
-          _loadingMessage = 'Downloading Gemma 3N...';
-        });
-
-        await _downloaderDataSource.downloadModel(
-          token: accessToken, // using the token from the datasource file
-          onProgress: (progress) {
-            setState(() {
-              _downloadProgress = progress;
-            });
-          },
-        );
-      }
-
-      setState(() {
-        _loadingMessage = 'Initializing model...';
-        _downloadProgress = null;
-      });
-
-      _inferenceModel = await gemma.createModel(
-        modelType: ModelType.gemmaIt,
-        supportImage: true,
-        maxTokens: 2048,
-      );
-
-      _chat = await _inferenceModel!.createChat(supportImage: true);
-
+      // Usa il modello già inizializzato
+      _inferenceModel = ModelHolder.model;
+      _chat = ModelHolder.chat;
       setState(() {
         _isModelLoading = false;
       });
     } catch (e) {
-      debugPrint("Error initializing model: $e");
+      debugPrint("Error using model: $e");
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       if (mounted) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
-            content: Text('Failed to initialize AI model: $e'),
+            content: Text('Failed to use AI model: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -103,11 +73,18 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     }
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage([ImageSource? source]) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
+      ImageSource imageSource = source ?? ImageSource.gallery;
+      
+      // Se non è stata specificata una fonte, mostra il dialog di selezione
+      if (source == null) {
+        imageSource = await _showImageSourceDialog() ?? ImageSource.gallery;
+      }
+      
       final pickedFile = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
+        source: imageSource,
         maxWidth: 1024,
         maxHeight: 1024,
         imageQuality: 85,
@@ -127,12 +104,44 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     }
   }
 
+  Future<ImageSource?> _showImageSourceDialog() async {
+    return showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(context.read<AppStrings>().get('choose_photo_source')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: Text(context.read<AppStrings>().get('take_photo')),
+                onTap: () => Navigator.of(context).pop(ImageSource.camera),
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(context.read<AppStrings>().get('select_from_gallery')),
+                onTap: () => Navigator.of(context).pop(ImageSource.gallery),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(context.read<AppStrings>().get('cancel')),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         // UI Enhancement: Added an emoji to the title and gave the AppBar a cleaner look.
-        title: const Text('Offline Menu Translator 🍜'),
+        title: const Text('Offline Vite Vere ❤️'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
@@ -275,7 +284,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                     child: TextField(
                       controller: _textController,
                       decoration: InputDecoration(
-                        hintText: 'Translate this menu...',
+                        hintText: context.watch<AppStrings>().get('ask_hint'),
                         filled: true,
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(
@@ -323,13 +332,26 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       _isAwaitingResponse = true;
     });
 
-    // 1. Create the user's message object.
-    // Use a default prompt if the user only provides an image.
-    final userMessage = Message.withImage(
-      text: text.isNotEmpty ? text : "Please translate this menu into English.",
-      imageBytes: image!,
-      isUser: true,
-    );
+    // Crea il messaggio utente in base a cosa è stato fornito
+    late final Message userMessage;
+    if (image != null && text.isNotEmpty) {
+      userMessage = Message.withImage(
+        text: text,
+        imageBytes: image,
+        isUser: true,
+      );
+    } else if (image != null) {
+      userMessage = Message.withImage(
+        text: "Please translate this menu into English.",
+        imageBytes: image,
+        isUser: true,
+      );
+    } else {
+      userMessage = Message.text(
+        text: text,
+        isUser: true,
+      );
+    }
 
     // 2. Add the user's message to the UI and clear the input fields.
     setState(() {

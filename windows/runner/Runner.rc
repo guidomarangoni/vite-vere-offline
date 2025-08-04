@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.gerfalcon.example" "\0"
-            VALUE "FileDescription", "offline_menu_translator" "\0"
+            VALUE "CompanyName", "Guido Marangoni" "\0"
+            VALUE "FileDescription", "vite_vere_offline" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "offline_menu_translator" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.gerfalcon.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "offline_menu_translator.exe" "\0"
-            VALUE "ProductName", "offline_menu_translator" "\0"
+            VALUE "InternalName", "vite_vere_offline" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 Guido Marangoni. All rights reserved." "\0"
+            VALUE "OriginalFilename", "vite_vere_offline.exe" "\0"
+            VALUE "ProductName", "vite_vere_offline" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

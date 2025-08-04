@@ -43,3 +43,60 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS specific
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Podfile.lock
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Flutter 2.podspec
+**/ios/Flutter/Flutter 3.podspec
+**/ios/Flutter/Generated 2.xcconfig
+**/ios/Flutter/Generated 3.xcconfig
+**/ios/Flutter/flutter_export_environment 2.sh
+**/ios/Flutter/flutter_export_environment 3.sh
+**/ios/Podfile 2.lock
+
+# Gemma models (large files)
+*.task
+
+# Duplicate files generated during development
+**/*" 2"
+**/*" 3"
+**/*" 4"
+**/*" 5"
+
+# Generated plugin files
+**/android/app/src/main/kotlin/it/
+
+# VS Code settings (optional, uncomment if you want to ignore)
+.vscode/
+
+# Token files (security)
+**/token.dart
+**/secrets.dart
+
+# Local configuration
+local.properties
+
+# iOS Build files and pods cache
+**/ios/Pods/
+**/ios/build/
+**/ios/.symlinks/
+**/ios/Flutter/ephemeral/
+**/ios/Runner.xcworkspace/xcuserdata/
+
+# macOS Build files and pods cache  
+**/macos/Pods/
+**/macos/build/
+**/macos/.symlinks/
+**/macos/Flutter/ephemeral/
+
+# Android Build files
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/app/outputs/
+**/android/app/release/

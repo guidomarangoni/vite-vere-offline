@@ -2,12 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:offline_menu_translator/domain/download_model.dart';
+import 'package:vite_vere_offline/domain/download_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// TODO: Replace with your actual access token.
-final accessToken = "ADD_YOUR_KEY_HERE";
+// Import del token locale (file non committato)
+import 'token.dart';
+
+/// Utilizza il token dal file locale per sviluppo
+/// In produzione: sostituisci con il tuo token Hugging Face
+final accessToken = huggingFaceToken;
 
 class GemmaDownloaderDataSource {
   final DownloadModel model;
@@ -103,6 +107,12 @@ class GemmaDownloaderDataSource {
           onProgress(totalBytes > 0 ? received / totalBytes : 0.0);
         }
         await prefs.setBool(_preferenceKey, true);
+        if (kDebugMode) {
+          final fileSize = await file.length();
+          print('Modello scaricato in: '
+              '[32m$filePath[0m');
+          print('Dimensione file modello: $fileSize bytes');
+        }
       } else {
         await prefs.setBool(_preferenceKey, false);
         if (kDebugMode) {

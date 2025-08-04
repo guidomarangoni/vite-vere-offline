@@ -6,9 +6,10 @@ plugins {
 }
 
 android {
-    namespace = "com.gerfalcon.example.offline_menu_translator"
+    namespace = "it.guidomarangoni.vite_vere_offline"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -21,7 +22,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.gerfalcon.example.offline_menu_translator"
+        applicationId = "it.guidomarangoni.vite_vere_offline"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 24

@@ -1,5 +1,5 @@
-name: offline_menu_translator
-description: "A new Flutter project to demonstrate the usage of on device AI models."
+name: vite_vere_offline
+description: "Applicazione AI offline per Vite Vere, sviluppata da Guido Marangoni."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
@@ -20,14 +20,52 @@ dependencies:
   http: ^1.3.0
   path_provider: ^2.1.5
   shared_preferences: ^2.5.2
+  flutter_tts: ^4.2.3
+  provider: ^6.1.2
+  wakelock_plus: ^1.2.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.1
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/gemma.png
+    - assets/riordinare.png
+    - assets/GUIDO-MARANGONI-Logo.png
+    - assets/logo-gemma.png
+    - assets/gemma-3n.png
+    - assets/vitevereoff-icona.png
+    - assets/strings_it.json
+    - assets/strings_en.json
+    - assets/strings_fr.json
+    - assets/strings_es.json
+    - assets/strings_de.json
+    - assets/order_room_prompt_it.json
+    - assets/order_room_prompt_en.json
+    - assets/order_room_prompt_fr.json
+    - assets/order_room_prompt_es.json
+    - assets/order_room_prompt_de.json
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/vitevereoff-icona.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/vitevereoff-icona.png"
+    background_color: "#ffffff"
+    theme_color: "#2196F3"
+  windows:
+    generate: true
+    image_path: "assets/vitevereoff-icona.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/vitevereoff-icona.png"
